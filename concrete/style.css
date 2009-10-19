@@ -1,0 +1,14 @@
+.card {
+  width: 4em;
+  height: 6em;
+  border: 1px solid grey;
+}
+
+.card-name-a.is-up {
+  background:white url("resources/pics/1.jpg") no-repeat center;
+}
+
+.card-name-b.is-up {
+  background:white url("resources/pics/2.jpg") no-repeat center;
+}
+  
