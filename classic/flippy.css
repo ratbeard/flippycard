@@ -1,0 +1,66 @@
+h1 {color:purple; text-align:center;}
+
+#quickplay_area {background-color:#BFFFBF; margin:10px 10%; min-height:185px;}
+#quickplay_title {background-color:#BFFFBF; margin:10px 10%;}
+#journey_area {background-color:orange; margin:10px 10%;display:none;}
+#card_area {margin:0px;}
+#card_box {margin:0px;}
+
+
+.row_br {clear:left;}
+.hovercard {float:left; width:30px; height: 40px; margin:3px; background-color:#BFCFFF;color:red;text-align:center;}
+.hovercard_hovering {float:left; width:30px; height: 40px; margin:3px; background:#0066B3;color:red;text-align:center}
+.hovercard_selected {float:left; margin:3px; background-color:#00487D; color:red;text-align:center;}
+
+#go_wrap {
+	float:right; clear:right;
+}
+
+#num_pairs {margin-top:-100px; margin-right:30px; ; width:55px;}
+
+
+#go div {color:white; background:black;margin:0 35px 0 0;font-size:x-large; padding:5px;}
+#go div:hover {color:yellow; cursor:pointer;}
+
+
+/* Game Objects */
+.normal {background-color:#BFCFFF;color:red;}
+.card {float:left; width:60px; height: 80px; margin:3px; text-align:center; border:1px solid black;}
+
+
+.p1 {background:white url("resources/pics/1.jpg") no-repeat center;}
+.p2 {background:white url("resources/pics/2.jpg") no-repeat center;}
+.p3 {background:white url("resources/pics/3.jpg") no-repeat center;}
+.p4 {background:white url("resources/pics/4.jpg") no-repeat center;}
+.p5 {background:white url("resources/pics/5.jpg") no-repeat center;}
+.p6 {background:white url("resources/pics/6.jpg") no-repeat center;}
+.p7 {background:white url("resources/pics/7.jpg") no-repeat center;}
+.p8 {background:white url("resources/pics/8.jpg") no-repeat center;}
+.p9 {background:white url("resources/pics/9.jpg") no-repeat center;}
+.p10 {background:white url("resources/pics/10.jpg") no-repeat center;}
+.p11 {background:white url("resources/pics/11.jpg") no-repeat center;}
+.p12 {background:white url("resources/pics/12.jpg") no-repeat center;}
+.p13 {background:white url("resources/pics/13.jpg") no-repeat center;}
+.p14 {background:white url("resources/pics/14.jpg") no-repeat center;}
+.p69{background:white url("resources/pics/special.jpg") no-repeat center;}	
+
+#game_right {float:right;}
+
+#game_right div, .message  {
+	border:2px solid yellow;
+	background: #FFC;}
+	
+#output { 
+	width:300px; 
+	min-height:1.5em; 
+	margin:5px 0;
+}
+
+#tries_wrap{
+	width:100px; min-height:1.5em; 
+	
+	margin:0 204px 5px 0;
+	
+}
+
+#new_game {width:100; margin: 0 208px 0 0; }

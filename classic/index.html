@@ -1,0 +1,73 @@
+<html>
+<head>
+	<title>Flippy Card - Card Flipping Game !!</title>
+	<link rel="stylesheet" type="text/css" href="flippy.css" />
+	
+	<script src="hovercard.js"></script>
+	<script src="game.js"></script>
+</head>
+
+<body >
+	<h1>Flippy Card</h1>
+
+	<div id="quickplay_area">
+		<div id="game_area_wrap" style="display:none">
+			<div id="game_right">
+				<div id="output"></div>
+				
+				<div id="tries_wrap">Num Tries: <span id="tries">0</span></div>
+				<input type="button" id="new_game" value="New Game" onclick="SetupGame()" />
+			</div>
+			<div id="game_area"></div>
+			
+		</div>
+		<div id="card_area">
+			<div id="card_box">
+				<div class="hovercard" id="0_0" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="0_1" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="0_2" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="0_3" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="0_4" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="0_5" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="0_6" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<br class="row_br"/>
+				<div class="hovercard" id="1_0" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="1_1" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="1_2" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="1_3" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="1_4" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="1_5" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="1_6" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<br class="row_br"/>
+				<div class="hovercard" id="2_0" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="2_1" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="2_2" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="2_3" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="2_4" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="2_5" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="2_6" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<br class="row_br"/>
+				<div class="hovercard" id="3_0" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="3_1" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="3_2" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="3_3" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="3_4" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="3_5" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<div class="hovercard" id="3_6" onmouseover="HoverCard(this)" onmouseout="LoseHover(this)" onclick="SelectCard(this)"></div>
+				<br/>
+			</div>
+			<div id="go_wrap">
+				<div id="num_pairs" class="message"><div>0 pairs</div></div>
+				<input type="button" id="go" value="Go!" onclick="StartGame()"></input>
+			</div>
+		</div>
+		
+	</div>
+	
+	
+	
+	
+	
+	<div id="journey_area">Journey
+	
+</body>
