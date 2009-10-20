@@ -36,10 +36,10 @@
   background-color: AliceBlue;
 }
 .game.on > header:after {
-  content: 'on!';
+  content: 'on! (click me to change that)';
 }
 .game > header:after {
-  content: 'off';
+  content: 'off. (click me to change that)';
 }
 .game.on.done {
   background-color: Blue;

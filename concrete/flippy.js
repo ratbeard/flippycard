@@ -1,7 +1,3 @@
-$('.game > header').concrete({
-  onclick: function () {  this.parent().toggleClass('on'); }
-})
-
 // generic card behavior - no game logic!
 // you should be able to flip up a card - 
 // though if a game is going on, it might impose 
@@ -31,33 +27,35 @@ $('.card').concrete({
 });
 
 
+// In a game, cards pick up some extra semantics.
+// note: `onmatch` is part of the concrete framework, not my
+// match event.
 $('.game.on .card').concrete({
-  onmatch: function () {  console.log('match');  },
+  onmatch: function () {  console.log('concrete match - card');  },
   flip: function () {  this.toggleClass('guess')._super();  },
 });
 
 $('.game.on .card.up').concrete({
-  onmatch: function () {  console.log('a concrete match');  },
+  onmatch: function () {  console.log('concrete match - card up');  },
   onclick: function () {  this.trigger('_pointless_click');  },
   mark_as_matched: function () {  
     return this.addClass('matched').removeClass('guess');  
   },
 });
 
-$('.card.up.active').concrete({
-  mark_as_matched: function () {  return this.deactivate()._super();  },
-});
 
-$('.flipper').concrete({
+// catches low-level flip events and turns them in to
+// higher level game events
+$('.game.on .flipper').concrete({
   onflip: function () {
     var guesses = this.find('.card.guess');
-    console.log('flipper: ',guesses.length);
+    console.log('flipper guesses: ', guesses.length);
     
     one_guess()?  this.trigger('_first_flip') 
     : two_guesses()?  
         that_match()?  this.trigger('_match')
         : this.trigger('_no_match')
-    : 'flipped down' ;
+    : 'was a downward flip' ;
     /////
     function one_guess () { return guesses.length === 1; }
     function two_guesses () { return guesses.length === 2; }
@@ -65,26 +63,27 @@ $('.flipper').concrete({
   }
 });
 
-$('.move').concrete({
-  on_first_flip: function () {
-    return this.addClass('one-guess');
-  },
+
+// tracks the state of the current move
+// after the first flip moves to the more interesting
+// 'one-guess' state
+$('.game.on .move').concrete({
+  on_first_flip: function () {  return this.addClass('one-guess');  },
 });
 
-$('.move.one-guess').concrete({
+$('.game.on .move.one-guess').concrete({
   on_match: function () {  
-    console.log('match');
-    this.find('.card.up.guess').mark_as_matched();
-    this.start_state();
+    this.start_state().find('.card.up.guess').mark_as_matched();
   },
   on_no_match: function () {  
-    console.log('no match');
-    $('.card.up.guess').flip();
-    this.start_state();  
+    this.start_state().find('.card.up.guess').flip();
   },
-  start_state: function () {  this.removeClass('one-guess');  },
+  start_state: function () {  return this.removeClass('one-guess');  },
 });
 
+
+// The big dady game object
+// listens for matches to see if the game is over
 $('.game').concrete({
   on_match: function () {
     this.all_cards_matched()? this.done('win') : console.log('game not done');
@@ -95,19 +94,25 @@ $('.game').concrete({
   done: function (win_or_lose) {
     this.addClass('done').addClass(win_or_lose);
   },
-})
-
-
-$('*').concrete({
-  cards: function () {
-    this.find('.card');
+  on_toggle_game: function () {
+    this.toggleClass('on').find('.commentary').say('Are you cheating?');
   }
 });
 
+// can turn game on and off
+$('.game > header').concrete({
+  onclick: function () { this.trigger('_toggle_game'); }
+});
+
+// Snarky Commentary gives you praise or 
+// ridicules you!
 $('.commentary').concrete({
-  say: function (text) {  this.find('footer').text(text);  },
+  say: function (text) {  this.find('footer').text(text);  }
+});
+
+$('.game.on .commentary').concrete({
   on_match: function () {  this.say('nice');  },
   on_no_match: function () {  this.say('too bad');  },
   on_first_flip: function () {  this.say('hmmm...');  },
   on_pointless_click: function () {  this.say('Pick a face down card, bozo!'); }
-})
+});
