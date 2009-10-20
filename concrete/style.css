@@ -28,7 +28,7 @@
 }
 
 .move.one-guess {
-  background-color: grey;
+  border: 1px dashed blue;
 }
 
 
@@ -38,7 +38,9 @@
 .game.on > header:after {
   content: 'on!';
 }
-
 .game > header:after {
   content: 'off';
+}
+.game.on.done {
+  background-color: Blue;
 }

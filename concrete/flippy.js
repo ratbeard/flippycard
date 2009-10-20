@@ -5,14 +5,15 @@ $('.game > header').concrete({
 // generic card behavior - no game logic!
 // you should be able to flip up a card - 
 // though if a game is going on, it might impose 
-// some logic that restricts this!
+// some logic that restricts your ability to flip
 $('.card').concrete({
   onclick: function () {  return this.flip();  },
+  Duration: 150,
   animate_content: function (props, complete_fn) {
     var self = this; 
     return this.find('.content').
       animate(props, {
-        duration: 200, 
+        duration: self.getDuration(), 
         easing: 'swing',
         complete: function () {  complete_fn.call(self);  }
       }).end();
@@ -84,6 +85,17 @@ $('.move.one-guess').concrete({
   start_state: function () {  this.removeClass('one-guess');  },
 });
 
+$('.game').concrete({
+  on_match: function () {
+    this.all_cards_matched()? this.done('win') : console.log('game not done');
+  },
+  all_cards_matched: function () { 
+    return this.find('.card:not(.matched)').length === 0; 
+  },
+  done: function (win_or_lose) {
+    this.addClass('done').addClass(win_or_lose);
+  },
+})
 
 
 $('*').concrete({
