@@ -30,3 +30,15 @@
 .move.one-guess {
   background-color: grey;
 }
+
+
+.game.on {
+  background-color: AliceBlue;
+}
+.game.on > header:after {
+  content: 'on!';
+}
+
+.game > header:after {
+  content: 'off';
+}

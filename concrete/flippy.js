@@ -1,9 +1,11 @@
-$(document).ready(function ($) {
-
-});
+$('.game > header').concrete({
+  onclick: function () {  this.parent().toggleClass('on'); }
+})
 
 // generic card behavior - no game logic!
-// you should be able to flip up a card
+// you should be able to flip up a card - 
+// though if a game is going on, it might impose 
+// some logic that restricts this!
 $('.card').concrete({
   onclick: function () {  return this.flip();  },
   animate_content: function (props, complete_fn) {
