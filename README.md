@@ -5,7 +5,7 @@ Two implementations of a memory game:
 
 - The first is **CLASSIC**. It was my second JS project; its global, obtrusive, procedural, and DOM-tastic, making it an excellent candidate for the average JS implementation of this sort of thing.
 
-- The second is **CONCRETE**. Its new, new, new, and getting newer by the day.  Its using the HOT _new_ [Concrete ](http://ajaxian.com/archives/jquery-concrete-concreteui-programming-in-jquery#comments) jquery library.  
+- The second is **CONCRETE**. Its new, and getting newer by the day!  Its using the _hot_ NEW [Concrete ](http://ajaxian.com/archives/jquery-concrete-concreteui-programming-in-jquery#comments) jquery library.  
 
 Some day there _might_ be:
 
@@ -24,7 +24,7 @@ Try it!
 
 …
 
-Comes from self's morphic views?  Check out Effen and [concrete](http://github.com/hafriedlander/jquery.concrete)
+Comes from self's ‘morphic views’?  Javascript was greatly inspired by self?  Who knows!  Check out Effen and [concrete](http://github.com/hafriedlander/jquery.concrete) for javascript implementations.
 
 Trouble
 =======
