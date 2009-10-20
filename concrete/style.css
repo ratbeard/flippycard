@@ -28,7 +28,7 @@
 }
 
 .move.one-guess {
-  border: 1px dashed blue;
+  border-right: 3px dashed Cyan;
 }
 
 
@@ -42,5 +42,5 @@
   content: 'off. (click me to change that)';
 }
 .game.on.done {
-  background-color: Blue;
+  background-color: Cyan;
 }

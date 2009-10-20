@@ -1,11 +1,30 @@
-// generic card behavior - no game logic!
-// you should be able to flip up a card - 
-// though if a game is going on, it might impose 
-// some logic that restricts your ability to flip
+// Generic card that can be flipped.
+// Though if a game is going on, it might restrict 
+// your ability to flip
 $('.card').concrete({
-  onclick: function () {  return this.flip();  },
+  name: function () {  
+    return this.attr('class').match(/\bcard-name-(.+?)\b/)[1];  
+  },
+  onclick: function () {  
+    return this.flip();  
+  },
+  flip: function () {  
+    return this.
+      _shrink_content(function () {     
+          this.toggleClass('up').
+            _grow_content(function () {
+              this.trigger('_flip');
+            });
+      });
+  },
+  _shrink_content: function (complete_fn) {
+    return this._animate_content({width: 0}, complete_fn);
+  },
+  _grow_content: function (complete_fn) {
+    return this._animate_content({width: '100%'}, complete_fn);
+  },
   Duration: 150,
-  animate_content: function (props, complete_fn) {
+  _animate_content: function (props, complete_fn) {
     var self = this; 
     return this.find('.content').
       animate(props, {
@@ -13,17 +32,7 @@ $('.card').concrete({
         easing: 'swing',
         complete: function () {  complete_fn.call(self);  }
       }).end();
-  },
-  flip: function () {  
-    return this.
-      animate_content({width: 0}, function () {
-        this.toggleClass('up').
-        animate_content({width: '100%'}, function () {
-          this.trigger('flip');
-        });
-      });
-  },
-  name: function () {  return this.attr('class').match(/\bcard-name-(.+?)\b/)[1];  },
+  }
 });
 
 
@@ -44,10 +53,9 @@ $('.game.on .card.up').concrete({
 });
 
 
-// catches low-level flip events and turns them in to
-// higher level game events
+// Turns low-level flip events to higher level game events
 $('.game.on .flipper').concrete({
-  onflip: function () {
+  on_flip: function () {
     var guesses = this.find('.card.guess');
     console.log('flipper guesses: ', guesses.length);
     
@@ -55,7 +63,7 @@ $('.game.on .flipper').concrete({
     : two_guesses()?  
         that_match()?  this.trigger('_match')
         : this.trigger('_no_match')
-    : 'was a downward flip' ;
+    : 'ignoring a downward flip' ;
     /////
     function one_guess () { return guesses.length === 1; }
     function two_guesses () { return guesses.length === 2; }
@@ -64,9 +72,8 @@ $('.game.on .flipper').concrete({
 });
 
 
-// tracks the state of the current move
-// after the first flip moves to the more interesting
-// 'one-guess' state
+// Tracks the state of the current move.
+// After the first flip moves to the more interesting 'one-guess' state
 $('.game.on .move').concrete({
   on_first_flip: function () {  return this.addClass('one-guess');  },
 });
