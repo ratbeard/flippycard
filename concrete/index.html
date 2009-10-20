@@ -13,19 +13,23 @@
     <link rel="stylesheet" href="style.css" type="text/css" media="screen" title="no title" charset="utf-8">
   </head>
   <body>
-    <container>
+    <container class='game'>
         <header>The board</header>
-
-        <table id='board'>
-            <tr>
-                <td><div class='card card-name-a'></td>
-                <td><div class='card card-name-b'></td>
-                <td><div class='card card-name-b'></td>
-                <td><div class='card card-name-a'></td>
-            </tr>
-        </table>
-        
-        <footer>Snarky comments here</footer>
+        <container class='commentary'>
+            <div class='move'>
+                <div class='flipper'>
+                    <table id='board'>
+                        <tr>
+                            <td><div class='card card-name-a'></td>
+                            <td><div class='card card-name-b'></td>
+                            <td><div class='card card-name-b'></td>
+                            <td><div class='card card-name-a'></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <footer class='snarky'>Snarky comments here</footer>            
+        </container>
     </container>
     
     <script src="jquery.js"></script>
