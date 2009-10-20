@@ -24,7 +24,7 @@ Try it!
 
 …
 
-Comes from self's ‘morphic views’?  Javascript was greatly inspired by self?  Who knows!  Check out Effen and [concrete](http://github.com/hafriedlander/jquery.concrete) for javascript implementations.
+Check out [Effen](http://github.com/nkallen/effen) and [concrete](http://github.com/hafriedlander/jquery.concrete) for javascript implementations.
 
 Trouble
 =======
