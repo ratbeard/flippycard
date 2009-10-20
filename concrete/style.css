@@ -11,4 +11,11 @@
 .card-name-b.up {
   background:white url("resources/pics/2.jpg") no-repeat center;
 }
-  
+
+.card.up.match {
+  border: 1px solid red;
+}
+
+.move.one-guess {
+  border: 1px solid blue;
+}
