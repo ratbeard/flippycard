@@ -1,6 +1,5 @@
 // Generic card that can be flipped.
-// Though if a game is going on, it might restrict 
-// your ability to flip
+// If a game is going on, it might limit your ability to flip.
 $('.card').concrete({
   name: function () {  
     return this.attr('class').match(/\bcard-name-(.+?)\b/)[1];  
@@ -23,22 +22,21 @@ $('.card').concrete({
   _grow_content: function (complete_fn) {
     return this._animate_content({width: '100%'}, complete_fn);
   },
-  Duration: 150,
   _animate_content: function (props, complete_fn) {
     var self = this; 
     return this.find('.content').
       animate(props, {
-        duration: self.getDuration(), 
+        duration: self.getFlipDuration(), 
         easing: 'swing',
         complete: function () {  complete_fn.call(self);  }
       }).end();
-  }
+  },
+  FlipDuration: 150
 });
 
 
 // In a game, cards pick up some extra semantics.
-// note: `onmatch` is part of the concrete framework, not my
-// match event.
+// note: `onmatch` is part of the concrete framework, not my match event.
 $('.game.on .card').concrete({
   onmatch: function () {  console.log('concrete match - card');  },
   flip: function () {  this.toggleClass('guess')._super();  },
@@ -99,7 +97,7 @@ $('.game').concrete({
     return this.find('.card:not(.matched)').length === 0; 
   },
   done: function (win_or_lose) {
-    this.addClass('done').addClass(win_or_lose);
+    this.addClass('done ' + win_or_lose);
   },
   on_toggle_game: function () {
     this.toggleClass('on').find('.commentary').say('Are you cheating?');
@@ -111,15 +109,34 @@ $('.game > header').concrete({
   onclick: function () { this.trigger('_toggle_game'); }
 });
 
-// Snarky Commentary gives you praise or 
-// ridicules you!
+
+// Snarky Commentary gives you praise or ridicules you!
 $('.commentary').concrete({
-  say: function (text) {  this.find('footer').text(text);  }
+  comment: function (e) {
+    var selector = e.type.replace(/^_/, '.') + ' li';
+    console.log('commenting on ', e.type);
+    return this.find('.comments').
+      find('.active').removeClass('active').end().
+      find(selector).random().addClass('active');
+  },
 });
 
 $('.game.on .commentary').concrete({
-  on_match: function () {  this.say('nice');  },
-  on_no_match: function () {  this.say('too bad');  },
-  on_first_flip: function () {  this.say('hmmm...');  },
-  on_pointless_click: function () {  this.say('Pick a face down card, bozo!'); }
+  onmatch: function () { this.comment({type: '_initial'}); },
+  on_match: function (e) {  this.comment(e);  },
+  on_no_match: function (e) {  this.comment(e);  },
+  on_first_flip: function (e) {  this.comment(e);  },
+  on_pointless_click: function (e) {  this.comment(e);  }
+});
+
+$('.comments li').concrete({
+  random: function () {
+    var random_index = this.length * Math.random();
+    return this.pushStack( this.eq(random_index) );
+  }
+});
+
+// hmm..
+$('.game.done .state .progress + dd').concrete({
+  onmatch: function () {  this.text('done!');  }
 });

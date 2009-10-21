@@ -1,3 +1,8 @@
+
+body {
+  font: 1em "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+}
+
 .card {
   width: 4em;
   height: 6em;
@@ -32,6 +37,14 @@
 }
 
 
+.game {
+  width: 80%;
+  margin: 10px auto;
+}
+.game > aside {
+  float: right;
+  width: 200px;
+}
 .game.on {
   background-color: AliceBlue;
 }
@@ -44,3 +57,6 @@
 .game.on.done {
   background-color: Cyan;
 }
+
+.comments li { display: none;}
+.comments li.active { display: block;}

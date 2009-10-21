@@ -14,7 +14,24 @@
   </head>
   <body>
     <section class='game on'>
+        <h1>Flippy Card</h1>
         <header>Game is:</header>
+        <aside>
+            <section class='state'>
+                <dl>
+                    <dt class='progress'>Game is </dt><dd>in progress</dd>
+                    <dt>You</dt><dd>Win!</dd>
+                    <dt>Game engine is</dt><dd>on</dd>
+                    <dt class='turn'>Turn </dt><dd>0</dd>
+                    <dt>This turn has</dt><dd>no guesses</dd>
+                </dl>
+            </section>
+            <section id='actions'>
+                <button>Restart</button>
+                <button>New Game</button>
+            </section>
+        </aside>
+
         <section class='commentary'>
             <div class='move'>
                 <div class='flipper'>
@@ -44,7 +61,27 @@
                     </table>
                 </div>
             </div>
-            <footer class='snarky'>Snarky comments here</footer>            
+            <section class='comments'>
+                <ul class='initial'>
+                    <li>Ready to play?</li>
+                </ul>
+                <ul class='first_flip'>
+                    <li>hmm…</li>
+                    <li>Whats it gonna be?</li>
+                </ul>
+                <ul class='match'>
+                    <li>Good Guess.</li>
+                    <li>GREAT Guess!</li>
+                </ul>
+                <ul class='no_match'>
+                    <li>Commit them to memory!</li>
+                    <li>Incorrect.</li>
+                    <li>Next time <em>maybe</em></li>
+                </ul>
+                <ul class='pointless_click'>
+                    <li>Pick a face down card, Bozo!</li>
+                </ul>
+            </section>            
         </section>
     </section>
     
