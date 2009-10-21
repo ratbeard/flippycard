@@ -60,3 +60,4 @@ body {
 
 .comments li { display: none;}
 .comments li.active { display: block;}
+.comments .stream li:last-child { display: block;}

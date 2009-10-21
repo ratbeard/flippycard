@@ -100,7 +100,7 @@ $('.game').concrete({
     this.addClass('done ' + win_or_lose);
   },
   on_toggle_game: function () {
-    this.toggleClass('on').find('.commentary').say('Are you cheating?');
+    this.toggleClass('on');
   }
 });
 
@@ -113,11 +113,11 @@ $('.game > header').concrete({
 // Snarky Commentary gives you praise or ridicules you!
 $('.commentary').concrete({
   comment: function (e) {
-    var selector = e.type.replace(/^_/, '.') + ' li';
-    console.log('commenting on ', e.type);
-    return this.find('.comments').
-      find('.active').removeClass('active').end().
-      find(selector).random().addClass('active');
+    var comment = this.comments_for(e).random();
+    return this.find('.stream').say(comment);
+  },
+  comments_for: function (event) {
+    return this.find('.' + event.type.replace(/^_/,'') + ' li');
   },
 });
 
@@ -127,6 +127,13 @@ $('.game.on .commentary').concrete({
   on_no_match: function (e) {  this.comment(e);  },
   on_first_flip: function (e) {  this.comment(e);  },
   on_pointless_click: function (e) {  this.comment(e);  }
+});
+
+$('.comments .stream').concrete({
+  say: function (thing) {
+    var node = ('string'== typeof thing)? $('<li>').text(thing) : thing.clone();
+    return this.append(node);
+  }
 });
 
 $('.comments li').concrete({
