@@ -179,6 +179,8 @@ table = {
 
 function interpret (declared) {
   return {
+    source: declared.source,
+    observers: declared.observers,
     event: lookup('event', declared.source_prop),
     get: lookup('get', declared.source_prop),
     set: lookup('set', declared.prop)
@@ -186,7 +188,7 @@ function interpret (declared) {
 }
 
 function MutantWatch (config) {  
-  $.extend(this, config);  
+  $.extend(this, {overrides: {}}, config);  
 }
 
 (function () {
@@ -195,39 +197,46 @@ function MutantWatch (config) {
       return $.extend(this, {source: source});
     },
     length: function () {
-      return $.extend(this, {source_prop: 'length'}).kick();
+      return $.extend(this, {source_prop: 'length'});
     },
     val: function () {
-      return $.extend(this, {source_prop: 'val'}).kick();
+      return $.extend(this, {source_prop: 'val'});
+    },
+    on: function (event) {
+      return $.extend(this.overrides, {event: 'on'+event});
     },
     kick: function () {
-      this._build();
+      if ( !this._kicked ) {
+        this._kicked = true;
+        this._build();
+      }
     },
     _interpret: function () {
-      return interpret(this);
+      return $.extend(interpret(this), this.overrides);
     },
     _build: function () {
-      this._build_watcher(this._interpret())
+      this._build_watcher(this._interpret());
     },
     _build_watcher: function (the) {
-      var self = this;
       the[the.event] = function () {
         var val = the.get.call(this);
-        self.observers.each(function () {  the.set.call(this, val);  });
+        the.observers.each(function () {  the.set.call(this, val);  });
       };
-      return $(this.source).concrete(the);
+      return $(the.source).concrete(the);
     }
   });
 
   // extend jquery
   $.extend($.fn, {
     sync: function (prop) {
-      return new MutantWatch({observers: this, prop: prop});
+      var declaration = new MutantWatch({observers: this, prop: prop});
+      setTimeout(function () { declaration.kick(); }, 10)
+      return declaration;
     }
   });
-  
+    
 })();
 
-
 $('.turn-count').sync('text').to('ol.turns li').length();
-$('.greeting .name').sync('text').to('#players_name').val();
+// $('.greeting .name').sync('text').to('#players_name').val();
+$('.greeting .name').sync('text').to('#players_name').val().on('keyup');
