@@ -158,66 +158,76 @@ $('.game.done .state .progress + dd').concrete({
 
 
 
+
+lookup = function (type, when) {
+  return table[type][when];
+};
+
+table = {
+  event: {
+    length: 'onmatch',
+    val: 'onchange'
+  },
+  get: {
+     length: function () {  return this.siblings().andSelf().length;  },
+     val: function () {  return this.val();  }
+  },
+  set: {
+    text: function (val) { return $(this).text(val); }
+  }
+};
+
+function interpret (declared) {
+  return {
+    event: lookup('event', declared.source_prop),
+    get: lookup('get', declared.source_prop),
+    set: lookup('set', declared.prop)
+  };
+}
+
 function MutantWatch (config) {  
   $.extend(this, config);  
 }
 
-$.extend((MutantWatch.prototype={}), {
-  to: function (source) {
-    return $.extend(this, {source: source});
-  },
-  length: function () {
-    return $.extend(this, {source_prop: 'length'}).kick();
-  },
-  val: function () {
-    return $.extend(this, {source_prop: 'val'}).kick();
-  },
-  kick: function () {
-    var self = this,
-      get = this.get_fn(),
-      set = this.set_fn(),
-      event = this.get_event(),
-      concrete = {};
-    console.log(event);
-    concrete[event] = function () {
-      console.log(event);
-      var val = get.call(this);
-      console.log(val);
-      self.observers.each(function () {  set.call(this, val);  });
-    };
-      
-    $(this.source).concrete(concrete);
-  },
-  get_event: function () {
-    return {
-      length: 'onmatch',
-      val: 'onchange'
-    }[ this.source_prop ];
-  },
-  get_fn: function () {
-     var fns = {
-       length: function () {  return this.siblings().andSelf().length;  },
-       val: function () {  return this.val();  }
-     };
-     return fns[this.source_prop];
-  },
-  set_fn: function () {
-    var fns = {
-      text: function (val) { return $(this).text(val); }
-    };
-    return fns[this.prop];
-  },
-});
+(function () {
+  $.extend((MutantWatch.prototype={}), {
+    to: function (source) {
+      return $.extend(this, {source: source});
+    },
+    length: function () {
+      return $.extend(this, {source_prop: 'length'}).kick();
+    },
+    val: function () {
+      return $.extend(this, {source_prop: 'val'}).kick();
+    },
+    kick: function () {
+      this._build();
+    },
+    _interpret: function () {
+      return interpret(this);
+    },
+    _build: function () {
+      this._build_watcher(this._interpret())
+    },
+    _build_watcher: function (the) {
+      var self = this;
+      the[the.event] = function () {
+        var val = the.get.call(this);
+        self.observers.each(function () {  the.set.call(this, val);  });
+      };
+      return $(this.source).concrete(the);
+    }
+  });
 
-$.extend($.fn, {
-  bind_its: function (prop) {
-    return new MutantWatch({observers: this, prop: 'text'});
-  }
-});
+  // extend jquery
+  $.extend($.fn, {
+    sync: function (prop) {
+      return new MutantWatch({observers: this, prop: prop});
+    }
+  });
+  
+})();
 
 
-$('.turn-count').concrete({}).
-  bind_its('text').to('ol.turns li').length();
-
-$('p.greeting').
-  bind_its('text').to('#players_name').val();
+$('.turn-count').sync('text').to('ol.turns li').length();
+$('.greeting .name').sync('text').to('#players_name').val();
