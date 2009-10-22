@@ -156,37 +156,56 @@ $('.game.done .state .progress + dd').concrete({
   onmatch: function () {  this.text('done!');  }
 });
 
+
+
 function MutantWatch (config) {  
   $.extend(this, config);  
 }
 
 $.extend((MutantWatch.prototype={}), {
   to: function (source) {
-    console.log('binding to ', source);
     return $.extend(this, {source: source});
   },
   length: function () {
     return $.extend(this, {source_prop: 'length'}).kick();
   },
+  val: function () {
+    return $.extend(this, {source_prop: 'val'}).kick();
+  },
   kick: function () {
     var self = this,
       get = this.get_fn(),
-      set = this.set_fn();
-    
-    $(this.source).concrete({
-      onmatch: function () {
-        var val = get(this);
-        self.observers.each(function () {
-          set(this, val);
-        });
-      }
-    })
+      set = this.set_fn(),
+      event = this.get_event(),
+      concrete = {};
+    console.log(event);
+    concrete[event] = function () {
+      console.log(event);
+      var val = get.call(this);
+      console.log(val);
+      self.observers.each(function () {  set.call(this, val);  });
+    };
+      
+    $(this.source).concrete(concrete);
+  },
+  get_event: function () {
+    return {
+      length: 'onmatch',
+      val: 'onchange'
+    }[ this.source_prop ];
   },
   get_fn: function () {
-    return function (obj) { return obj.siblings().andSelf().length; }
+     var fns = {
+       length: function () {  return this.siblings().andSelf().length;  },
+       val: function () {  return this.val();  }
+     };
+     return fns[this.source_prop];
   },
   set_fn: function () {
-    return function (obj, val) { return $(obj).text(val); }
+    var fns = {
+      text: function (val) { return $(this).text(val); }
+    };
+    return fns[this.prop];
   },
 });
 
@@ -197,9 +216,8 @@ $.extend($.fn, {
 });
 
 
-$('.turn-count').concrete({
-  
-}).
+$('.turn-count').concrete({}).
   bind_its('text').to('ol.turns li').length();
 
-
+$('p.greeting').
+  bind_its('text').to('#players_name').val();
