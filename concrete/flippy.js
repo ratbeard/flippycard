@@ -78,10 +78,14 @@ $('.game.on .move').concrete({
 
 $('.game.on .move.one-guess').concrete({
   on_match: function () {  
-    this.start_state().find('.card.up.guess').mark_as_matched();
+    this.record('match').start_state().find('.card.up.guess').mark_as_matched();
   },
   on_no_match: function () {  
-    this.start_state().find('.card.up.guess').flip();
+    this.record('miss').start_state().find('.card.up.guess').flip();
+  },
+  record: function (text) {
+    $('ol.turns').append('<li>'+text+'</li>');
+    return this;
   },
   start_state: function () {  return this.removeClass('one-guess');  },
 });
@@ -117,7 +121,7 @@ $('.commentary').concrete({
     return this.find('.stream').say(comment);
   },
   comments_for: function (event) {
-    return this.find('.' + event.type.replace(/^_/,'') + ' li');
+    return this.find('.' + event.type.replace(/^_/,'') + ' .comment');
   },
 });
 
@@ -131,19 +135,71 @@ $('.game.on .commentary').concrete({
 
 $('.comments .stream').concrete({
   say: function (thing) {
-    var node = ('string'== typeof thing)? $('<li>').text(thing) : thing.clone();
+    var node = ('string'== typeof thing)?  $('.comment').build(thing): thing.clone();
     return this.append(node);
   }
 });
 
-$('.comments li').concrete({
+$('.comment').concrete({
+  build: function (text) {
+    return $('<li>').attr('class', 'comment').text(text);
+  },
   random: function () {
     var random_index = this.length * Math.random();
     return this.pushStack( this.eq(random_index) );
-  }
+  },
+    onmatch: function () { console.log('new comment', e);}
 });
 
 // hmm..
 $('.game.done .state .progress + dd').concrete({
   onmatch: function () {  this.text('done!');  }
 });
+
+function MutantWatch (config) {  
+  $.extend(this, config);  
+}
+
+$.extend((MutantWatch.prototype={}), {
+  to: function (source) {
+    console.log('binding to ', source);
+    return $.extend(this, {source: source});
+  },
+  length: function () {
+    return $.extend(this, {source_prop: 'length'}).kick();
+  },
+  kick: function () {
+    var self = this,
+      get = this.get_fn(),
+      set = this.set_fn();
+    
+    $(this.source).concrete({
+      onmatch: function () {
+        var val = get(this);
+        self.observers.each(function () {
+          set(this, val);
+        });
+      }
+    })
+  },
+  get_fn: function () {
+    return function (obj) { return obj.siblings().andSelf().length; }
+  },
+  set_fn: function () {
+    return function (obj, val) { return $(obj).text(val); }
+  },
+});
+
+$.extend($.fn, {
+  bind_its: function (prop) {
+    return new MutantWatch({observers: this, prop: 'text'});
+  }
+});
+
+
+$('.turn-count').concrete({
+  
+}).
+  bind_its('text').to('ol.turns li').length();
+
+
